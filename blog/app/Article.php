@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Article extends Model
 {
+
     protected $fillable = ['title', 'body'];
 
     public static function boot(){
@@ -23,4 +24,5 @@ class Article extends Model
     public function user(){
         return $this->belongsTo('App\User');
     }
+
 }
