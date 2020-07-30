@@ -11,10 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
 {
-    private static $rules = [
-        'title' => 'required|string|unique:articles|max:255',
-        'body' => 'required',
-    ];
 
     private static $messages = [
         'required' => 'El campo :attribute es obligatorio',
@@ -32,7 +28,11 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate(self::$rules, self::$messages);
+        $request->validate([
+            'title' => 'required|string|unique:articles|max:255',
+            'body' => 'required',
+            'category_id' => 'required|exists:categories,id',
+        ], self::$messages);
 
        // $validator = Validator::make($request->all(),[
         //    'title' => 'required|string|unique:articles|max:255',
@@ -50,6 +50,12 @@ class ArticleController extends Controller
     }
     public function update(Request $request, Article $article)
     {
+        $request->validate([
+            'title' => 'required|string|unique:articles,title,'.$article->id.'|max:255',
+            'body' => 'required',
+            'category_id' => 'required|exists:categories,id',
+        ], self::$messages);
+
         $article->update($request->all());
         return response()->json($article, 200);
     }

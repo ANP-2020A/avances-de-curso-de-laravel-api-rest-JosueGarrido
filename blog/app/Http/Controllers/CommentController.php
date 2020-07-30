@@ -29,8 +29,8 @@ class CommentController extends Controller
      */
     public function show(Article $article, Comment $comment)
     {
-        //$comment = $article->comments()->where('id',$comment->id)->firstOrFail();
-        //return response()->json($comment, 200);
+        $comment = $article->comments()->where('id',$comment->id)->firstOrFail();
+        return response()->json($comment, 200);
     }
 
     /**
@@ -42,12 +42,12 @@ class CommentController extends Controller
      */
     public function store(Request $request, Article $article)
     {
-       // $request-> validate([
-       //     'text' => 'required|string'
-       // ]);
+       $request-> validate([
+            'text' => 'required|string'
+        ]);
 
-       // $comment = $article->comments()->save(new Comment($request->all()));
-       // return response()->json($comment, 201);
+        $comment = $article->comments()->save(new Comment($request->all()));
+        return response()->json($comment, 201);
     }
 
     /**
